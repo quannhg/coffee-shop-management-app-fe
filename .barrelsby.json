@@ -1,0 +1,20 @@
+{
+  "directory": [
+    "./src/constants",
+    "./src/components/common",
+    "./src/components/employee",
+    "./src/components/tickflow",
+    "./src/components/member",
+    "./src/interfaces",
+    "./src/layouts",
+    "./src/pages/auth",
+    "./src/pages/tickflow",
+    "./src/pages/user",
+    "./src/pages/member",
+    "./src/states",
+    "./src/utils",
+    "./src/hooks",
+    "./src/services"
+  ],
+  "delete": true
+}

@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ESNext",
+    "sourceRoot": "src",
+    "sourceMap": true,
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "paths": {
+      "@assets/*": ["src/assets/*"],
+      "@components/common": ["src/components/common"],
+      "@components/employee": ["src/components/employee"],
+      "@components/tickflow": ["src/components/tickflow"],
+      "@components/member": ["src/components/member"],
+      "@constants": ["src/constants"],
+      "@hooks": ["src/hooks"],
+      "@interfaces": ["src/interfaces"],
+      "@layouts": ["src/layouts"],
+      "@pages/auth": ["src/pages/auth"],
+      "@pages/tickflow": ["src/pages/tickflow"],
+      "@pages/user": ["src/pages/user"],
+      "@pages/member": ["src/pages/member"],
+      "@states": ["src/states"],
+      "@utils": ["src/utils"],
+      "@services": ["src/services"],
+      "@openapi-spec": ["src/openapi-spec"]
+    }
+  },
+  "include": ["src", "**/*.ts", "**/*.tsx", "**/*.js", "*.cjs"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
