@@ -65,7 +65,7 @@ export const AppNavigation: Component<{ menu: SidebarMenuItem[] }> = ({ menu }) 
         <div className='flex items-center gap-2'>
           <img src={logo} alt='brand' className='' />
           <Typography variant='h5' color='blue-gray'>
-            {collapseSidebar ? '' : 'TickLab'}
+            {collapseSidebar ? '' : 'Coffee'}
           </Typography>
         </div>
       ),

@@ -6,19 +6,13 @@ import AutosuggestHighlightParse from 'autosuggest-highlight/parse';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { PROJECT_TIME } from '@constants';
 import { projectSearchService } from '@services';
-import {
-  useProjectSearchStore,
-  useProjectGeneralStore,
-  useFilterProjectStore,
-  useSidebarStore
-} from '@states';
+import { useProjectSearchStore, useFilterProjectStore, useSidebarStore } from '@states';
 import { escapeRegexCharacters, manipulateTime, fromToNow, timeCurrent } from '@utils';
 
 export function SearchEmployee() {
   const [value, setValue] = useState<string>('');
   const [suggestions, setSuggestions] = useState<ListProject[]>([]);
   const { setListProject } = useProjectSearchStore();
-  const { setInputPage, setActivePage } = useProjectGeneralStore();
   const { status, timeInterval } = useFilterProjectStore();
   const { typeNavbar, setTypeNavbar } = useSidebarStore();
 
@@ -113,8 +107,6 @@ export function SearchEmployee() {
     () => async (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (event.key === 'Enter') {
         const suggestions = await getSuggestions(event.currentTarget.value);
-        setInputPage('1');
-        setActivePage(1);
         if (suggestions.length !== 0) {
           setListProject(suggestions);
         } else {
@@ -131,7 +123,7 @@ export function SearchEmployee() {
         }
       }
     },
-    [getSuggestions, setActivePage, setInputPage, setListProject, value]
+    [getSuggestions, setListProject, value]
   );
 
   const inputProps = {

@@ -7,6 +7,8 @@ export * from './common';
 export * from './member.service';
 export * from './project.service';
 export * from './user.service';
+export * from './employee/detail';
+export * from './employee/general';
 export * from './member/memberDetail';
 export * from './member/memberGeneral';
 export * from './member/memberStandard';

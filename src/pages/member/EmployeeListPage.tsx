@@ -1,5 +1,5 @@
+import { FilterEmployee, SearchEmployee } from '@components/employee';
 import { MutateMemberBox } from '@components/member';
-import { SearchProject } from '@components/tickflow';
 import { RoleColor } from '@constants';
 import { EyeIcon } from '@heroicons/react/24/outline';
 import { Card, Chip, IconButton, Tooltip, Typography } from '@material-tailwind/react';
@@ -15,24 +15,14 @@ import { useMemo } from 'react';
 import Avatar from 'react-avatar';
 import { useNavigate } from 'react-router-dom';
 
-type Member = {
-  id: string;
-  name: string;
-  avatarUrl: string;
-  role: Role;
-  joinedAt: number;
-  birthday: number;
-  gender: 'nam' | 'nữ';
-  phoneNum: string;
-};
-const columnHelper = createColumnHelper<Member>();
+const columnHelper = createColumnHelper<Employee>();
 
 export function EmployeeListPage() {
   // const { data, refetch: refetchMemberList } = useQuery(['/api/members'], {
   //   queryFn: () => memberService.getAll(),
   //   retry: retryQueryFn
   // });
-  const data: Member[] = [
+  const data: Employee[] = [
     {
       id: 'abc',
       name: 'nguyen hong quan',
@@ -144,10 +134,10 @@ export function EmployeeListPage() {
 
   const defaultData = useMemo(() => [], []);
 
-  const memberTable = useReactTable<Member>({
+  const memberTable = useReactTable<Employee>({
     columns: columnDefs,
     data: data ?? defaultData,
-    getCoreRowModel: getCoreRowModel<RowModel<Member>>(),
+    getCoreRowModel: getCoreRowModel<RowModel<Employee>>(),
     state: {
       columnVisibility: {
         id: false
@@ -180,10 +170,11 @@ export function EmployeeListPage() {
       <div className='flex p-4 items-center'>
         <Typography variant='h4' className='flex-grow'>
           Danh sách nhân viên
+          <FilterEmployee />
         </Typography>
         <div>
           <MutateMemberBox />
-          <SearchProject />
+          <SearchEmployee />
         </div>
       </div>
       <table className='w-full min-w-max table-auto text-left h-full overflow-scroll'>
