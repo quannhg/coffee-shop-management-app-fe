@@ -10,6 +10,7 @@ export * from './screen';
 export * from './sidebar';
 export * from './toast';
 export * from './unit';
+export * from './employee/employee';
 export * from './member/memberDetail';
 export * from './member/memberGeneral';
 export * from './notification/notificationDetail';

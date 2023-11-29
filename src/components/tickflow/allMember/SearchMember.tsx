@@ -181,7 +181,7 @@ export const SearchMember: Component<{
     setValue && setValue(suggestion.id);
     setCurrentInputValue(suggestion.name);
     if (selectedLeaderName) selectedLeaderName.current = true;
-    if (searchBar) navigate(`/member/${suggestion.id}`);
+    if (searchBar) navigate(`/employees/${suggestion.id}`);
   };
 
   const inputProps = {

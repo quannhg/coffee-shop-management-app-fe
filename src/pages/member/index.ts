@@ -3,6 +3,6 @@
  */
 
 export * from './EmployeeListPage';
+export * from './EmployeePage';
 export * from './MemberListPage backup';
-export * from './MemberPage backup';
 export * from './MemberPage';

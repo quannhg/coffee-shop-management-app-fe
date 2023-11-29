@@ -1,3 +1,16 @@
+type CreateEmployeeDto = {
+  name: string;
+  avatarUrl: string;
+  address: string;
+  gender: Gender;
+  birthday: number;
+  phoneNum: string;
+  bankNum: string;
+  academicLevel: AcademicStandard;
+  joinedAt: number;
+  role: Role;
+};
+
 type Employee = {
   id: string;
   name: string;
@@ -5,7 +18,7 @@ type Employee = {
   role: Role;
   joinedAt: number;
   birthday: number;
-  gender: 'nam' | 'nữ';
+  gender: Gender;
   phoneNum: string;
 };
 
@@ -20,8 +33,8 @@ type EmployeeOrder = {
 };
 
 type EmployeeFilter = {
-  role?: Role;
-  gender?: 'nam' | 'nu';
+  role: Role[];
+  gender: Gender[];
 };
 
 type EmployeeForSearch = {
@@ -37,6 +50,7 @@ type EmployeeListStore = {
   setOrder: (employeeOrder: EmployeeOrder) => void;
   setFilter: (employeeFilter: EmployeeFilter) => void;
   getMemberList: () => Promise<void>;
+  createMember: (employee: CreateEmployeeDto) => Promise<void>;
 };
 
 type SearchEmployeeListStore = {

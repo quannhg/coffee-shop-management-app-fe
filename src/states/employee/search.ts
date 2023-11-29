@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 const GET_EMPLOYEE_FAIL = 'Không thể tìm kiếm nhân viên';
 
-export const useEmployeeListStore = create<SearchEmployeeListStore>()((set) => ({
+export const useSearchEmployeeStore = create<SearchEmployeeListStore>()((set) => ({
   employeeListForSearch: [],
   getEmployeeListForSearch: async (keyword) => {
     try {

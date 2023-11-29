@@ -10,18 +10,6 @@ async function getAll() {
 export type CreateMemberDto =
   paths['/api/members']['post']['requestBody']['content']['application/json'];
 
-export type CreateEmployeeDto = {
-  name: string;
-  address: string;
-  gender: 'nam' | 'nữ';
-  birthday: number;
-  phoneNum: string;
-  bankNum: string;
-  academicLevel: AcademicStandard;
-  joinAt: number;
-  role: Role;
-};
-
 async function create(member: CreateMemberDto) {
   const { data, error } = await apiClient.POST('/api/members', {
     body: member

@@ -26,7 +26,7 @@ export function MemberPage() {
   return (
     <div className='flex flex-col gap-4 max-h-screen'>
       <Breadcrumbs separator={<ChevronRightIcon strokeWidth={2} className='w-4' />}>
-        <Link to='/members' className='flex items-center gap-2 text-base'>
+        <Link to='/employees' className='flex items-center gap-2 text-base'>
           <UserCircleIcon className='w-5 h-5' />
           Danh sách thành viên
         </Link>

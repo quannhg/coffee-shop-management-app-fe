@@ -4,12 +4,14 @@ import { employeeGeneralService } from '@services';
 import { toast } from 'react-toastify';
 
 const GET_EMPLOYEE_FAIL = 'Không thể tải dữ liệu nhân viên';
+const CREATE_EMPLOYEE_SUCCESS = 'Tạo nhân viên thành công';
+const CREATE_EMPLOYEE_FAIL = 'Không thể tạo nhân viên';
 
 export const useEmployeeListStore = create<EmployeeListStore>()((set, get) => ({
   storeStatus: 'UNINIT',
   memberList: [],
   employeeOrder: {},
-  employeeFilter: {},
+  employeeFilter: { gender: [], role: [] },
   setOrder: (employeeOrder) => {
     set(() => ({ employeeOrder }));
   },
@@ -32,6 +34,30 @@ export const useEmployeeListStore = create<EmployeeListStore>()((set, get) => ({
       toast.update(id, {
         render: GET_EMPLOYEE_FAIL,
         type: 'error',
+        isLoading: false,
+        autoClose: 2000
+      });
+    }
+  },
+  createMember: async (employee: CreateEmployeeDto) => {
+    set(() => ({ storeStatus: 'PENDING' }));
+    const toastId = toast.loading('Đang xử lý');
+    toast.clearWaitingQueue();
+    try {
+      await employeeGeneralService.postSingle(employee);
+      get().getMemberList();
+      set(() => ({ storeStatus: 'SUCCESS' }));
+      toast.update(toastId, {
+        type: 'info',
+        render: CREATE_EMPLOYEE_SUCCESS,
+        isLoading: false,
+        autoClose: 2000
+      });
+    } catch (err) {
+      set(() => ({ storeStatus: 'REJECT' }));
+      toast.update(toastId, {
+        type: 'error',
+        render: CREATE_EMPLOYEE_FAIL,
         isLoading: false,
         autoClose: 2000
       });

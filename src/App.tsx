@@ -54,7 +54,7 @@ export default function App() {
           type: 'item',
           icon: <UserGroupIcon className='h-5 w-5' />,
           name: 'Thành viên',
-          path: '/members',
+          path: '/employees',
           element: <EmployeeListPage />
         },
         {
@@ -92,11 +92,15 @@ export default function App() {
           element: <DetailProjectPage />
         },
         {
-          path: '/members/:memberId',
+          path: '/employees/:memberId',
           element: <MemberPage />
         },
         {
           path: '',
+          element: <EmployeeListPage />
+        },
+        {
+          path: 'employees',
           element: <EmployeeListPage />
         }
       ]}

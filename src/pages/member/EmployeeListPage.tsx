@@ -1,5 +1,5 @@
 import { FilterEmployee, SearchEmployee } from '@components/employee';
-import { MutateMemberBox } from '@components/member';
+import { MutateEmployeeBox } from '@components/employee';
 import { RoleColor } from '@constants';
 import { EyeIcon } from '@heroicons/react/24/outline';
 import { Card, Chip, IconButton, Tooltip, Typography } from '@material-tailwind/react';
@@ -119,7 +119,7 @@ export function EmployeeListPage() {
                   variant='text'
                   className='rounded-full'
                   color='gray'
-                  onClick={() => navigate(`/members/${info.row.getValue('id')}`)}
+                  onClick={() => navigate(`/employees/${info.row.getValue('id')}`)}
                 >
                   <EyeIcon className='w-5 h-5' />
                 </IconButton>
@@ -168,12 +168,14 @@ export function EmployeeListPage() {
   return (
     <Card>
       <div className='flex p-4 items-center'>
-        <Typography variant='h4' className='flex-grow'>
+        <Typography variant='h4' className='flex flex-col gap-2 flex-grow'>
           Danh sách nhân viên
           <FilterEmployee />
         </Typography>
-        <div>
-          <MutateMemberBox />
+        <div className='flex flex-col gap-2 items-end'>
+          <div className='w-fit'>
+            <MutateEmployeeBox />
+          </div>
           <SearchEmployee />
         </div>
       </div>

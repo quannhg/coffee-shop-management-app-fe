@@ -11,10 +11,14 @@ import {
 } from '@material-tailwind/react';
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useEmployeeListStore } from '@states';
+import moment from 'moment';
 
-export function MutateMemberBox() {
+export function MutateEmployeeBox() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(!open);
+
+  const { createMember } = useEmployeeListStore();
 
   const { register, setValue, handleSubmit, reset } = useForm<CreateEmployeeDto>();
   // const { mutateAsync } = useMutation({
@@ -22,10 +26,11 @@ export function MutateMemberBox() {
   //   mutationFn: (data: CreateEmployeeDto) => memberService.create(data)
   // });
 
-  const onSubmit: SubmitHandler<CreateEmployeeDto> = (data) => {
+  const onSubmit: SubmitHandler<CreateEmployeeDto> = async (data) => {
     //TODO: remove console log
     // eslint-disable-next-line no-console
     console.log(data);
+    await createMember(data);
     reset();
     // mutateAsync(data)
     //   .then(() => {
@@ -50,6 +55,9 @@ export function MutateMemberBox() {
               <Input {...register('name')} label='Tên' variant='standard' />
             </div>
             <div className='mb-4'>
+              <Input {...register('avatarUrl')} label='Avatar URL' variant='standard' />
+            </div>
+            <div className='mb-4'>
               <Input {...register('address')} label='Địa chỉ' variant='standard' />
             </div>
             <div className='mb-4'>
@@ -65,7 +73,16 @@ export function MutateMemberBox() {
             </div>
             <div className='mb-4'>
               {' '}
-              <Input {...register('birthday')} label='Ngày sinh' variant='standard' type='date' />
+              <Input
+                onChange={(event) => {
+                  const selectedDate = event.target.value;
+                  const unixTimestamp = moment(selectedDate, 'YYYY-MM-DD').unix();
+                  setValue('birthday', unixTimestamp);
+                }}
+                label='Ngày sinh'
+                variant='standard'
+                type='date'
+              />
             </div>
             <div className='mb-4'>
               {' '}
@@ -77,8 +94,10 @@ export function MutateMemberBox() {
             </div>
             <div className='mb-4'>
               <Select
-                {...register('role')}
-                onChange={(value) => setValue('role', value as CreateEmployeeDto['role'])}
+                {...register('academicLevel')}
+                onChange={(value) =>
+                  setValue('academicLevel', value as CreateEmployeeDto['academicLevel'])
+                }
                 label='Trình độ học vấn'
                 variant='standard'
               >
@@ -89,14 +108,20 @@ export function MutateMemberBox() {
             </div>
             <div className='mb-4'>
               {' '}
-              <Input {...register('joinedAt')} label='Ngày vào làm' variant='standard' />
+              <Input
+                onChange={(event) => {
+                  const selectedDate = event.target.value;
+                  const unixTimestamp = moment(selectedDate, 'YYYY-MM-DD').unix();
+                  setValue('joinedAt', unixTimestamp);
+                }}
+                label='Ngày vào làm'
+                variant='standard'
+              />
             </div>
             <div className='mb-4'>
               <Select
-                {...register('academicLevel')}
-                onChange={(value) =>
-                  setValue('academicLevel', value as CreateEmployeeDto['academicLevel'])
-                }
+                {...register('role')}
+                onChange={(value) => setValue('role', value as CreateEmployeeDto['role'])}
                 label='Vai trò'
                 variant='standard'
               >
