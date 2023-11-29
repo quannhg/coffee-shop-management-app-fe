@@ -9,25 +9,33 @@ const CREATE_EMPLOYEE_FAIL = 'Không thể tạo nhân viên';
 
 export const useEmployeeListStore = create<EmployeeListStore>()((set, get) => ({
   storeStatus: 'UNINIT',
-  memberList: [],
-  employeeOrder: {},
+  employeeList: [],
+  employeeOrder: {
+    name: 'DESC',
+    role: 'DESC',
+    joinedAt: 'DESC',
+    birthday: 'DESC',
+    gender: 'DESC'
+  },
   employeeFilter: { gender: [], role: [] },
-  setOrder: (employeeOrder) => {
+  setOrder: async (employeeOrder) => {
     set(() => ({ employeeOrder }));
+    await get().getEmployeeList();
   },
-  setFilter: (employeeFilter) => {
+  setFilter: async (employeeFilter) => {
     set(() => ({ employeeFilter }));
+    await get().getEmployeeList();
   },
-  getMemberList: async () => {
+  getEmployeeList: async () => {
     set(() => ({ storeStatus: 'PENDING' }));
     const id = toast.loading(TOAST_PENDING);
     toast.clearWaitingQueue();
     try {
-      const memberList = await employeeGeneralService.query({
+      const employeeList = await employeeGeneralService.query({
         order: get().employeeOrder,
         filter: get().employeeFilter
       });
-      set(() => ({ memberList, storeStatus: 'SUCCESS' }));
+      set(() => ({ employeeList, storeStatus: 'SUCCESS' }));
       toast.done(id);
     } catch (err) {
       set(() => ({ storeStatus: 'REJECT' }));
@@ -39,13 +47,13 @@ export const useEmployeeListStore = create<EmployeeListStore>()((set, get) => ({
       });
     }
   },
-  createMember: async (employee: CreateEmployeeDto) => {
+  createEmployee: async (employee: CreateEmployeeDto) => {
     set(() => ({ storeStatus: 'PENDING' }));
     const toastId = toast.loading('Đang xử lý');
     toast.clearWaitingQueue();
     try {
       await employeeGeneralService.postSingle(employee);
-      get().getMemberList();
+      get().getEmployeeList();
       set(() => ({ storeStatus: 'SUCCESS' }));
       toast.update(toastId, {
         type: 'info',

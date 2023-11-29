@@ -34,7 +34,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 const memberDetails: EmployeeDetail = {
   id: 'abc',
   name: 'nguyen hong quan',
-  avatarUrl: 'https://www.facebook.com/photo/?fbid=1331360827433770&set=a.103632346873297',
+  avatarUrl:
+    'https://scontent.fsgn5-8.fna.fbcdn.net/v/t39.30808-6/327469869_722907669285814_7316941061051549723_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=b8kSgysUi5AAX9VkJG4&_nc_ht=scontent.fsgn5-8.fna&oh=00_AfB9K47Itan6ay0EKqjNFO8ojTqNpDTD1X0X0ifjhYgO7A&oe=656AE0F3',
   address: 'Viet Nam',
   gender: 'nam',
   birthday: 1,

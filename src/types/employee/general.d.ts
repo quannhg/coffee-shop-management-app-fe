@@ -14,7 +14,7 @@ type CreateEmployeeDto = {
 type Employee = {
   id: string;
   name: string;
-  avatarUrl: string;
+  avatarUrl?: string;
   role: Role;
   joinedAt: number;
   birthday: number;
@@ -25,12 +25,14 @@ type Employee = {
 type OrderType = 'ASC' | 'DESC';
 
 type EmployeeOrder = {
-  name?: OrderType;
-  role?: OrderType;
-  joinedAt?: OrderType;
-  birthday?: OrderType;
-  gender?: OrderType;
+  name: OrderType;
+  role: OrderType;
+  joinedAt: OrderType;
+  birthday: OrderType;
+  gender: OrderType;
 };
+
+type EmployeeOrderKey = keyof EmployeeOrder;
 
 type EmployeeFilter = {
   role: Role[];
@@ -44,13 +46,13 @@ type EmployeeForSearch = {
 
 type EmployeeListStore = {
   storeStatus: StoreStatus;
-  memberList: Employee[];
+  employeeList: Employee[];
   employeeOrder: EmployeeOrder;
   employeeFilter: EmployeeFilter;
   setOrder: (employeeOrder: EmployeeOrder) => void;
   setFilter: (employeeFilter: EmployeeFilter) => void;
-  getMemberList: () => Promise<void>;
-  createMember: (employee: CreateEmployeeDto) => Promise<void>;
+  getEmployeeList: () => Promise<void>;
+  createEmployee: (employee: CreateEmployeeDto) => Promise<void>;
 };
 
 type SearchEmployeeListStore = {

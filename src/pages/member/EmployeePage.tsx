@@ -28,7 +28,7 @@ export function MemberPage() {
       <Breadcrumbs separator={<ChevronRightIcon strokeWidth={2} className='w-4' />}>
         <Link to='/employees' className='flex items-center gap-2 text-base'>
           <UserCircleIcon className='w-5 h-5' />
-          Danh sách thành viên
+          Danh sách nhân viên
         </Link>
         {memberDetails && (
           <Link to='#' className='text-base font-medium'>

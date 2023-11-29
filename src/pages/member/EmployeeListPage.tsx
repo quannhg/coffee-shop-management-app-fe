@@ -2,6 +2,8 @@ import { FilterEmployee, SearchEmployee } from '@components/employee';
 import { MutateEmployeeBox } from '@components/employee';
 import { RoleColor } from '@constants';
 import { EyeIcon } from '@heroicons/react/24/outline';
+import sortAscending from '@assets/sort-ascending.svg';
+import sortDescending from '@assets/sort-descending.svg';
 import { Card, Chip, IconButton, Tooltip, Typography } from '@material-tailwind/react';
 import {
   RowModel,
@@ -14,14 +16,11 @@ import moment from 'moment';
 import { useMemo } from 'react';
 import Avatar from 'react-avatar';
 import { useNavigate } from 'react-router-dom';
+import { useEmployeeListStore } from '@states';
 
 const columnHelper = createColumnHelper<Employee>();
 
 export function EmployeeListPage() {
-  // const { data, refetch: refetchMemberList } = useQuery(['/api/members'], {
-  //   queryFn: () => memberService.getAll(),
-  //   retry: retryQueryFn
-  // });
   const data: Employee[] = [
     {
       id: 'abc',
@@ -36,10 +35,32 @@ export function EmployeeListPage() {
     }
   ];
 
+  const { employeeOrder, setOrder } = useEmployeeListStore();
+
   const navigate = useNavigate();
 
-  const columnDefs = useMemo(
-    () => [
+  const columnDefs = useMemo(() => {
+    const getColumnOrderIcon = (colName: EmployeeOrderKey) => {
+      const handleOnclick = () => {
+        setOrder({
+          ...employeeOrder,
+          [colName]: employeeOrder[colName] === 'ASC' ? 'DESC' : 'ASC'
+        });
+      };
+
+      if (!employeeOrder || !employeeOrder[colName]) return <div></div>;
+      if (employeeOrder[colName] === 'ASC')
+        return (
+          <img src={sortAscending} onClick={handleOnclick} className='w-6 h-6 cursor-pointer' />
+        );
+      if (employeeOrder[colName] === 'DESC')
+        return (
+          <img src={sortDescending} onClick={handleOnclick} className='w-6 h-6 cursor-pointer' />
+        );
+      return <div></div>;
+    };
+
+    return [
       columnHelper.accessor(
         (row) => {
           return (
@@ -59,13 +80,27 @@ export function EmployeeListPage() {
         },
         {
           id: 'employee',
-          header: 'Nhân viên',
+          header: () => {
+            const role = 'Nhân viên';
+            return (
+              <div className='flex items-center gap-2'>
+                {getColumnOrderIcon('name')} {role}
+              </div>
+            );
+          },
           cell: (info) => info.getValue()
         }
       ),
       columnHelper.accessor('role', {
         id: 'role',
-        header: 'Vai trò',
+        header: () => {
+          const role = 'Vai trò';
+          return (
+            <div className='flex items-center gap-2'>
+              {getColumnOrderIcon('role')} {role}
+            </div>
+          );
+        },
         cell: (info) => {
           const role = info.getValue();
           const color = RoleColor[role];
@@ -83,17 +118,38 @@ export function EmployeeListPage() {
       }),
       columnHelper.accessor('joinedAt', {
         id: 'joinedAt',
-        header: 'Ngày vào làm',
+        header: () => {
+          const role = 'Ngày vào làm';
+          return (
+            <div className='flex items-center gap-2'>
+              {getColumnOrderIcon('joinedAt')} {role}
+            </div>
+          );
+        },
         cell: (info) => <Typography>{moment.unix(info.getValue()).format('DD/MM/YYYY')}</Typography>
       }),
       columnHelper.accessor('birthday', {
         id: 'birthday',
-        header: 'Ngày sinh',
+        header: () => {
+          const role = 'Ngày sinh';
+          return (
+            <div className='flex items-center gap-2'>
+              {getColumnOrderIcon('birthday')} {role}
+            </div>
+          );
+        },
         cell: (info) => <Typography>{moment.unix(info.getValue()).format('DD/MM/YYYY')}</Typography>
       }),
       columnHelper.accessor('gender', {
         id: 'gender',
-        header: 'Giới tính',
+        header: () => {
+          const role = 'Giới tính';
+          return (
+            <div className='flex items-center gap-2'>
+              {getColumnOrderIcon('gender')} {role}
+            </div>
+          );
+        },
         cell: (info) => <Typography>{info.getValue() ?? '-----'}</Typography>
       }),
       columnHelper.accessor('phoneNum', {
@@ -103,7 +159,14 @@ export function EmployeeListPage() {
       }),
       columnHelper.accessor('id', {
         id: 'id',
-        header: 'ID',
+        header: () => {
+          const role = 'ID';
+          return (
+            <div className='flex items-center gap-2'>
+              {getColumnOrderIcon('name')} {role}
+            </div>
+          );
+        },
         cell: (info) => info.getValue(),
         enableHiding: true
       }),
@@ -128,9 +191,8 @@ export function EmployeeListPage() {
           );
         }
       })
-    ],
-    [navigate]
-  );
+    ];
+  }, [employeeOrder, navigate, setOrder]);
 
   const defaultData = useMemo(() => [], []);
 
@@ -168,10 +230,10 @@ export function EmployeeListPage() {
   return (
     <Card>
       <div className='flex p-4 items-center'>
-        <Typography variant='h4' className='flex flex-col gap-2 flex-grow'>
-          Danh sách nhân viên
+        <div className='flex flex-col gap-2 flex-grow'>
+          <Typography variant='h4'>Danh sách nhân viên</Typography>
           <FilterEmployee />
-        </Typography>
+        </div>
         <div className='flex flex-col gap-2 items-end'>
           <div className='w-fit'>
             <MutateEmployeeBox />
