@@ -1,8 +1,8 @@
 import { AppLayout } from '@layouts';
 // import { AuthPage } from '@pages/auth';
-import { AllNotificationsPage, ProjectPage, DetailProjectPage } from '@pages/tickflow';
+import { ProjectPage, DetailProjectPage } from '@pages/tickflow';
 // import { AppSkeleton } from '@components/common';
-import { BellIcon, BriefcaseIcon, UserGroupIcon } from '@heroicons/react/24/outline';
+import { ChartBarIcon, BriefcaseIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 import { UserPage } from '@pages/user';
 import { PowerIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import { authService, userService } from '@services';
@@ -10,7 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useUserStore } from '@states';
 import { toast } from 'react-toastify';
-import { MemberPage, EmployeeListPage } from '@pages/member';
+import { MemberPage, EmployeeListPage, EmployeeChartPage } from '@pages/member';
 
 export default function App() {
   const { data, refetch } = useQuery(['user'], {
@@ -53,16 +53,16 @@ export default function App() {
         {
           type: 'item',
           icon: <UserGroupIcon className='h-5 w-5' />,
-          name: 'Thành viên',
+          name: 'Nhân viên',
           path: '/employees',
           element: <EmployeeListPage />
         },
         {
           type: 'item',
-          icon: <BellIcon className='h-5 w-5' />,
-          name: 'Thông báo',
-          path: '/notifications',
-          element: <AllNotificationsPage />
+          icon: <ChartBarIcon className='h-5 w-5' />,
+          name: 'Thống kê',
+          path: '/charts',
+          element: <EmployeeChartPage />
         },
         'divider',
         {

@@ -5,6 +5,7 @@
 export * from './memberStandard';
 export * from './sidebar';
 export * from './user';
+export * from './employee/chart';
 export * from './employee/detail';
 export * from './employee/general';
 export * from './employee/search';
