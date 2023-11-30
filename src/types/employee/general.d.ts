@@ -51,7 +51,7 @@ type EmployeeListStore = {
   employeeFilter: EmployeeFilter;
   setOrder: (employeeOrder: EmployeeOrder) => void;
   setFilter: (employeeFilter: EmployeeFilter) => void;
-  getEmployeeList: () => Promise<void>;
+  getEmployeeList: (shopId: string) => Promise<void>;
   createEmployee: (employee: CreateEmployeeDto) => Promise<void>;
 };
 

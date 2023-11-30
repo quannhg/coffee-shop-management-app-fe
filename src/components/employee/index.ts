@@ -5,3 +5,4 @@
 export * from './MutateEmployeeBox';
 export * from './filterEmployee';
 export * from './searchEmployee';
+export * from './selectShop';

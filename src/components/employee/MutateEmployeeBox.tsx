@@ -18,11 +18,11 @@ export function MutateEmployeeBox() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(!open);
 
-  const { createMember } = useEmployeeListStore();
+  const { createEmployee } = useEmployeeListStore();
 
   const { register, setValue, handleSubmit, reset } = useForm<CreateEmployeeDto>();
   // const { mutateAsync } = useMutation({
-  //   mutationKey: ['createMember'],
+  //   mutationKey: ['createEmployee'],
   //   mutationFn: (data: CreateEmployeeDto) => memberService.create(data)
   // });
 
@@ -30,7 +30,7 @@ export function MutateEmployeeBox() {
     //TODO: remove console log
     // eslint-disable-next-line no-console
     console.log(data);
-    await createMember(data);
+    await createEmployee(data);
     reset();
     // mutateAsync(data)
     //   .then(() => {

@@ -1,4 +1,4 @@
-import { FilterEmployee, SearchEmployee } from '@components/employee';
+import { FilterEmployee, SearchEmployee, SelectShop } from '@components/employee';
 import { MutateEmployeeBox } from '@components/employee';
 import { RoleColor } from '@constants';
 import { EyeIcon } from '@heroicons/react/24/outline';
@@ -13,10 +13,10 @@ import {
   useReactTable
 } from '@tanstack/react-table';
 import moment from 'moment';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import Avatar from 'react-avatar';
 import { useNavigate } from 'react-router-dom';
-import { useEmployeeListStore } from '@states';
+import { useEmployeeListStore, useSelectShopStore } from '@states';
 
 const columnHelper = createColumnHelper<Employee>();
 
@@ -35,7 +35,12 @@ export function EmployeeListPage() {
     }
   ];
 
-  const { employeeOrder, setOrder } = useEmployeeListStore();
+  const { employeeOrder, setOrder, getEmployeeList } = useEmployeeListStore();
+  const { selectedShop } = useSelectShopStore();
+
+  useEffect(() => {
+    getEmployeeList(selectedShop === 'all' ? '' : selectedShop.id);
+  }, [getEmployeeList, selectedShop]);
 
   const navigate = useNavigate();
 
@@ -232,7 +237,12 @@ export function EmployeeListPage() {
       <div className='flex p-4 items-center'>
         <div className='flex flex-col gap-2 flex-grow'>
           <Typography variant='h4'>Danh sách nhân viên</Typography>
-          <FilterEmployee />
+          <div className='flex gap-2'>
+            <FilterEmployee />
+            <div className='w-[250px]'>
+              <SelectShop />
+            </div>
+          </div>
         </div>
         <div className='flex flex-col gap-2 items-end'>
           <div className='w-fit'>

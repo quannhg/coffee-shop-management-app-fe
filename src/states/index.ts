@@ -27,3 +27,4 @@ export * from './project/projectDetailMaterial';
 export * from './project/projectGeneral';
 export * from './project/projectGeneralMaterial';
 export * from './project/searchProject';
+export * from './shop/SelectedShop';

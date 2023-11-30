@@ -9,6 +9,7 @@ const CREATE_EMPLOYEE_FAIL = 'Không thể tạo nhân viên';
 
 export const useEmployeeListStore = create<EmployeeListStore>()((set, get) => ({
   storeStatus: 'UNINIT',
+  shops: [],
   employeeList: [],
   employeeOrder: {
     name: 'DESC',
@@ -20,21 +21,22 @@ export const useEmployeeListStore = create<EmployeeListStore>()((set, get) => ({
   employeeFilter: { gender: [], role: [] },
   setOrder: async (employeeOrder) => {
     set(() => ({ employeeOrder }));
-    await get().getEmployeeList();
   },
   setFilter: async (employeeFilter) => {
     set(() => ({ employeeFilter }));
-    await get().getEmployeeList();
   },
-  getEmployeeList: async () => {
+  getEmployeeList: async (shopId) => {
     set(() => ({ storeStatus: 'PENDING' }));
     const id = toast.loading(TOAST_PENDING);
     toast.clearWaitingQueue();
     try {
-      const employeeList = await employeeGeneralService.query({
-        order: get().employeeOrder,
-        filter: get().employeeFilter
-      });
+      const employeeList = await employeeGeneralService.query(
+        {
+          order: get().employeeOrder,
+          filter: get().employeeFilter
+        },
+        shopId
+      );
       set(() => ({ employeeList, storeStatus: 'SUCCESS' }));
       toast.done(id);
     } catch (err) {
@@ -47,13 +49,30 @@ export const useEmployeeListStore = create<EmployeeListStore>()((set, get) => ({
       });
     }
   },
-  createEmployee: async (employee: CreateEmployeeDto) => {
+  getShopList: async () => {
+    set(() => ({ storeStatus: 'PENDING' }));
+    const id = toast.loading(TOAST_PENDING);
+    toast.clearWaitingQueue();
+    try {
+      const shopList = await employeeGeneralService.getShops();
+      set(() => ({ shops: shopList, storeStatus: 'SUCCESS' }));
+      toast.done(id);
+    } catch (err) {
+      set(() => ({ storeStatus: 'REJECT' }));
+      toast.update(id, {
+        render: GET_EMPLOYEE_FAIL,
+        type: 'error',
+        isLoading: false,
+        autoClose: 2000
+      });
+    }
+  },
+  createEmployee: async (employee) => {
     set(() => ({ storeStatus: 'PENDING' }));
     const toastId = toast.loading('Đang xử lý');
     toast.clearWaitingQueue();
     try {
       await employeeGeneralService.postSingle(employee);
-      get().getEmployeeList();
       set(() => ({ storeStatus: 'SUCCESS' }));
       toast.update(toastId, {
         type: 'info',
