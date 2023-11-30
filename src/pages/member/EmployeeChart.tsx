@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import { Card, CardBody } from '@material-tailwind/react';
-import { NotificationNavBar } from '@components/tickflow';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -15,10 +14,18 @@ import { Chart } from 'chart.js/auto';
 import { faker } from '@faker-js/faker';
 import { GENDERS } from '@constants';
 import { capitalizeFirstCharacter } from '@utils';
+import { EmployeeChartNavBar } from 'src/components/employee/EmployeeChartNavBar';
+import { useChartStore, useSelectShopStore } from '@states';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export function EmployeeChartPage() {
+  const { getAgeDistribute, getGenderDistribute } = useChartStore();
+  const { selectedShop } = useSelectShopStore();
+  useEffect(() => {
+    getAgeDistribute(selectedShop === 'all' ? '' : selectedShop.id);
+    getGenderDistribute(selectedShop === 'all' ? '' : selectedShop.id);
+  });
   const AgeDistributeChart = () => {
     const chartRef = useRef<HTMLCanvasElement>(null);
 
@@ -139,7 +146,7 @@ export function EmployeeChartPage() {
         <Card className='h-full w-full drop-shadow-2xl p-4'>
           <CardBody className='gap-4 p-0 flex flex-col divide-y'>
             <div className='mb-2'>
-              <NotificationNavBar />
+              <EmployeeChartNavBar />
             </div>
 
             <div className='w-full'>

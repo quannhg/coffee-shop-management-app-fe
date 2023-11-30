@@ -8,18 +8,18 @@ const GET_GENDER_DISTRIBUTE_FAIL = 'Không thể tải dữ liệu phân phối 
 export const useChartStore = create<ChartStore>()((set) => ({
   ageDistribute: { age: [], amount: [] },
   genderDistribute: { gender: [], amount: [] },
-  getAgeDistribute: async () => {
+  getAgeDistribute: async (shopId) => {
     try {
-      const ageDistribute = await employeeChartService.ageDistribute();
+      const ageDistribute = await employeeChartService.ageDistribute(shopId);
       set(() => ({ ageDistribute }));
     } catch (err) {
       toast.error(GET_AGE_DISTRIBUTE_FAIL);
       toast.clearWaitingQueue();
     }
   },
-  getGenderDistribute: async () => {
+  getGenderDistribute: async (shopId) => {
     try {
-      const genderDistribute = await employeeChartService.genderDistribute();
+      const genderDistribute = await employeeChartService.genderDistribute(shopId);
       set(() => ({ genderDistribute }));
     } catch (err) {
       toast.error(GET_GENDER_DISTRIBUTE_FAIL);

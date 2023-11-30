@@ -11,6 +11,6 @@ type GenderDistribute = {
 type ChartStore = {
   ageDistribute?: AgeDistribute;
   genderDistribute?: GenderDistribute;
-  getAgeDistribute: () => Promise<void>;
-  getGenderDistribute: () => Promise<void>;
+  getAgeDistribute: (shopId: string) => Promise<void>;
+  getGenderDistribute: (shopId: string) => Promise<void>;
 };
