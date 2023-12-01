@@ -3,15 +3,10 @@ import { useSelectShopStore } from '@states';
 import { useEffect } from 'react';
 
 export const SelectShop = () => {
-  const { selectedShop, getShops, selectShop } = useSelectShopStore();
+  const { shops, selectedShop, getShops, selectShop } = useSelectShopStore();
   useEffect(() => {
     getShops();
   }, [getShops]);
-  const shops = [
-    { name: 'Jangnam', id: 'jnId' },
-    { name: 'Coffin', id: 'cfId' },
-    { name: 'Six', id: 'sId' }
-  ];
 
   const handleSelectShop = (shopId: string | 'all') => {
     if (shopId !== 'all') selectShop(shops[shops.findIndex((shop) => shop.id === shopId)]);

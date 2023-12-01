@@ -21,26 +21,18 @@ import { useEmployeeListStore, useSelectShopStore } from '@states';
 const columnHelper = createColumnHelper<Employee>();
 
 export function EmployeeListPage() {
-  const data: Employee[] = [
-    {
-      id: 'abc',
-      name: 'nguyen hong quan',
-      avatarUrl:
-        'https://scontent.fsgn1-1.fna.fbcdn.net/v/t39.30808-6/327469869_722907669285814_7316941061051549723_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=5f2048&_nc_ohc=Mo5WThjzdXMAX-zb3ro&_nc_ht=scontent.fsgn1-1.fna&oh=00_AfC8yyAHtmntVllfwkx9qHSkIvNYZbgxw57j6PjhuT865A&oe=6564F233',
-      role: 'bồi bàn',
-      joinedAt: 1,
-      birthday: 1,
-      gender: 'nam',
-      phoneNum: '0999999999'
-    }
-  ];
-
-  const { employeeOrder, setOrder, getEmployeeList } = useEmployeeListStore();
+  const {
+    employeeList: data,
+    employeeOrder,
+    employeeFilter,
+    setOrder,
+    getEmployeeList
+  } = useEmployeeListStore();
   const { selectedShop } = useSelectShopStore();
 
   useEffect(() => {
-    getEmployeeList(selectedShop === 'all' ? '' : selectedShop.id);
-  }, [getEmployeeList, selectedShop]);
+    getEmployeeList(selectedShop === 'all' ? '' : selectedShop.id, employeeOrder, employeeFilter);
+  }, [employeeFilter, employeeOrder, getEmployeeList, selectedShop]);
 
   const navigate = useNavigate();
 
@@ -114,7 +106,7 @@ export function EmployeeListPage() {
               <Chip
                 size='sm'
                 color={color}
-                variant={role === 'quản lý' ? 'outlined' : undefined}
+                variant={role === 'quản lý' ? undefined : 'outlined'}
                 value={role}
               />
             </div>
@@ -214,7 +206,7 @@ export function EmployeeListPage() {
 
   // useListenEvent('member:refetch', refetchMemberList);
 
-  const TableBody = useMemo(() => {
+  const TableBody = () => {
     return (
       <tbody>
         {memberTable.getRowModel().rows.map((row) => {
@@ -230,7 +222,7 @@ export function EmployeeListPage() {
         })}
       </tbody>
     );
-  }, [memberTable]);
+  };
 
   return (
     <Card>
@@ -262,20 +254,16 @@ export function EmployeeListPage() {
                   className='border-b border-blue-gray-100 bg-blue-gray-50 p-4'
                 >
                   {header.isPlaceholder ? null : (
-                    <Typography
-                      variant='small'
-                      color='blue-gray'
-                      className='leading-none opacity-70 font-bold'
-                    >
+                    <div color='blue-gray' className='leading-none opacity-70 font-bold'>
                       {flexRender(header.column.columnDef.header, header.getContext()) ?? ''}
-                    </Typography>
+                    </div>
                   )}
                 </th>
               ))}
             </tr>
           ))}
         </thead>
-        {TableBody}
+        <TableBody />
       </table>
     </Card>
   );

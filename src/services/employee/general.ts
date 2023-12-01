@@ -4,8 +4,8 @@ type ProcedureResult = { status: string };
 
 export const employeeGeneralService = {
   query: (payload: { order: EmployeeOrder; filter: EmployeeFilter }, shopId: string) =>
-    invoke<Employee[]>(server.post('/api/employee', { ...payload, shopId })),
-  getShops: () => invoke<ShopForSelect[]>(server.post('/api/shops')),
+    invoke<Employee[]>(server.post('/api/employee/filter-order', { payload: payload, shopId })),
+  getShops: () => invoke<ShopForSelect[]>(server.get('/api/shops')),
   search: (keyword: string) =>
     invoke<EmployeeForSearch[]>(server.get(`/api/employee/search/${keyword}`)),
   postSingle: (employee: CreateEmployeeDto) =>

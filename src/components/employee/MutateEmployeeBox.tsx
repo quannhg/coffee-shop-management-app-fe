@@ -21,24 +21,10 @@ export function MutateEmployeeBox() {
   const { createEmployee } = useEmployeeListStore();
 
   const { register, setValue, handleSubmit, reset } = useForm<CreateEmployeeDto>();
-  // const { mutateAsync } = useMutation({
-  //   mutationKey: ['createEmployee'],
-  //   mutationFn: (data: CreateEmployeeDto) => memberService.create(data)
-  // });
 
   const onSubmit: SubmitHandler<CreateEmployeeDto> = async (data) => {
-    //TODO: remove console log
-    // eslint-disable-next-line no-console
-    console.log(data);
     await createEmployee(data);
     reset();
-    // mutateAsync(data)
-    //   .then(() => {
-    //     toast.success('Thêm thành viên thành công!');
-    //     emitEvent('member:refetch');
-    //     reset();
-    //   })
-    //   .catch((err) => toast.error(err.message));
   };
 
   return (
@@ -116,6 +102,7 @@ export function MutateEmployeeBox() {
                 }}
                 label='Ngày vào làm'
                 variant='standard'
+                type='date'
               />
             </div>
             <div className='mb-4'>
@@ -125,9 +112,9 @@ export function MutateEmployeeBox() {
                 label='Vai trò'
                 variant='standard'
               >
-                <Option value='ADMIN'>Quản lý</Option>
-                <Option value='MEMBER'>Bồi bàn</Option>
-                <Option value='COLLABORATOR'>Pha chế</Option>
+                <Option value='quản lý'>Quản lý</Option>
+                <Option value='bồi bàn'>Bồi bàn</Option>
+                <Option value='pha chế'>Pha chế</Option>
               </Select>
             </div>
           </DialogBody>

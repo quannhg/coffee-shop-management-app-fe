@@ -7,7 +7,7 @@ const GET_EMPLOYEE_FAIL = 'Không thể tải dữ liệu nhân viên';
 const CREATE_EMPLOYEE_SUCCESS = 'Tạo nhân viên thành công';
 const CREATE_EMPLOYEE_FAIL = 'Không thể tạo nhân viên';
 
-export const useEmployeeListStore = create<EmployeeListStore>()((set, get) => ({
+export const useEmployeeListStore = create<EmployeeListStore>()((set) => ({
   storeStatus: 'UNINIT',
   shops: [],
   employeeList: [],
@@ -25,15 +25,15 @@ export const useEmployeeListStore = create<EmployeeListStore>()((set, get) => ({
   setFilter: async (employeeFilter) => {
     set(() => ({ employeeFilter }));
   },
-  getEmployeeList: async (shopId) => {
+  getEmployeeList: async (shopId, employeeOrder, employeeFilter) => {
     set(() => ({ storeStatus: 'PENDING' }));
     const id = toast.loading(TOAST_PENDING);
     toast.clearWaitingQueue();
     try {
       const employeeList = await employeeGeneralService.query(
         {
-          order: get().employeeOrder,
-          filter: get().employeeFilter
+          order: employeeOrder,
+          filter: employeeFilter
         },
         shopId
       );
