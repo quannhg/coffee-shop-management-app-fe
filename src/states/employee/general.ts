@@ -75,7 +75,7 @@ export const useEmployeeListStore = create<EmployeeListStore>()((set) => ({
       await employeeGeneralService.postSingle(employee);
       set(() => ({ storeStatus: 'SUCCESS' }));
       toast.update(toastId, {
-        type: 'info',
+        type: 'success',
         render: CREATE_EMPLOYEE_SUCCESS,
         isLoading: false,
         autoClose: 2000

@@ -11,7 +11,8 @@ import {
   Input,
   Select,
   Option,
-  Typography
+  Typography,
+  Spinner
 } from '@material-tailwind/react';
 import {
   PhoneIcon,
@@ -31,43 +32,16 @@ import { useDetailEmployeeStore } from '@states';
 import { NavigateFunction, useNavigate, useParams } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-const memberDetails: EmployeeDetail = {
-  id: 'abc',
-  name: 'nguyen hong quan',
-  avatarUrl:
-    'https://scontent.fsgn5-8.fna.fbcdn.net/v/t39.30808-6/327469869_722907669285814_7316941061051549723_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=b8kSgysUi5AAX9VkJG4&_nc_ht=scontent.fsgn5-8.fna&oh=00_AfB9K47Itan6ay0EKqjNFO8ojTqNpDTD1X0X0ifjhYgO7A&oe=656AE0F3',
-  address: 'Viet Nam',
-  gender: 'nam',
-  birthday: 1,
-  phoneNum: '0999999999',
-  bankNum: '0000000000000000',
-  academicLevel: 'High School Diploma',
-  joinedAt: 1,
-  role: 'bồi bàn'
-};
-
 export function MemberDetails() {
   const { memberId } = useParams();
-
-  // const {
-  //   data: memberDetails,
-  //   isLoading,
-  //   isError
-  // } = useQuery(['/api/members', memberId], {
-  //   queryFn: () => (memberId ? memberService.getDetails(memberId) : undefined),
-  //   retry: retryQueryFn
-  // });
-
-  // if (isLoading) return <Spinner className='h-12 w-12' />;
-  // if (isError || !memberDetails)
-  //   return <Typography color='red'>Something went wrong! Please try again!</Typography>;
-
-  const { removeMember, updateMember } = useDetailEmployeeStore();
+  const { member: memberDetails, removeMember, updateMember } = useDetailEmployeeStore();
 
   const navigate: NavigateFunction = useNavigate();
 
   const [confirmRemoveOpen, setConfirmRemoveOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
+
+  if (!memberDetails) return <Spinner className='h-12 w-12' />;
 
   const ConfirmRemoveBox = () => {
     const handleOpen = () => setConfirmRemoveOpen(!confirmRemoveOpen);
@@ -123,18 +97,8 @@ export function MemberDetails() {
     });
 
     const onSubmit: SubmitHandler<EmployeeDetail> = async (data) => {
-      //TODO: remove console log
-      // eslint-disable-next-line no-console
-      console.log(data);
       handleOpen();
       await updateMember(memberId || '', data);
-      // mutateAsync(data)
-      //   .then(() => {
-      //     toast.success('Thêm thành viên thành công!');
-      //     emitEvent('member:refetch');
-      //     reset();
-      //   })
-      //   .catch((err) => toast.error(err.message));
     };
 
     return (
@@ -267,7 +231,7 @@ export function MemberDetails() {
   };
 
   return (
-    <Card className='h-fit'>
+    <Card className='h-full'>
       <CardBody className='p-4'>
         <div className='flex items-center gap-2 lg:gap-5 lg:flex-col'>
           <Avatar
@@ -291,7 +255,7 @@ export function MemberDetails() {
             </div>
           </div>
         </div>
-        <hr className='my-2' />
+        <hr className='my-2 mt-10' />
         <div className='grid gap-2 divide-y'>
           <div className='flex flex-col gap-2'>
             <Typography
@@ -303,7 +267,7 @@ export function MemberDetails() {
             </Typography>
             <Typography variant='small' className='flex gap-2 font-medium text-blue-gray-500'>
               <UserIcon className='w-5 h-5' />
-              <span className='break-all'>{memberDetails.gender ?? '--'}</span>
+              <span className='break-all capitalize'>{memberDetails.gender ?? '--'}</span>
             </Typography>
             <Typography
               variant='small'

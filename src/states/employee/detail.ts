@@ -25,7 +25,7 @@ export const useDetailEmployeeStore = create<DetailEmployeeStore>()((set) => ({
     try {
       await employeeDetailService.update(id, employee);
       toast.update(toastId, {
-        type: 'info',
+        type: 'success',
         render: UPDATE_EMPLOYEE_SUCCESS,
         isLoading: false,
         autoClose: 2000
@@ -45,7 +45,7 @@ export const useDetailEmployeeStore = create<DetailEmployeeStore>()((set) => ({
     try {
       await employeeDetailService.remove(id);
       toast.update(toastId, {
-        type: 'info',
+        type: 'success',
         render: REMOVE_EMPLOYEE_SUCCESS,
         isLoading: false,
         autoClose: 2000
