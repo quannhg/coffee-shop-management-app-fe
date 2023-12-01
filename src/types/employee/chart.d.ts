@@ -1,6 +1,9 @@
 type AgeDistribute = {
   age: int[];
-  amount: int[];
+  amount: {
+    male: int[];
+    female: int[];
+  };
 };
 
 type GenderDistribute = {
@@ -9,8 +12,8 @@ type GenderDistribute = {
 };
 
 type ChartStore = {
-  ageDistribute?: AgeDistribute;
-  genderDistribute?: GenderDistribute;
+  ageDistribute: AgeDistribute;
+  genderDistribute: GenderDistribute;
   getAgeDistribute: (shopId: string) => Promise<void>;
   getGenderDistribute: (shopId: string) => Promise<void>;
 };

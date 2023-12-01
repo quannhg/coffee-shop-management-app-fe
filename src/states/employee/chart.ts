@@ -6,7 +6,7 @@ const GET_AGE_DISTRIBUTE_FAIL = 'Không thể tải dữ liệu phân phối đ�
 const GET_GENDER_DISTRIBUTE_FAIL = 'Không thể tải dữ liệu phân phối giới tính';
 
 export const useChartStore = create<ChartStore>()((set) => ({
-  ageDistribute: { age: [], amount: [] },
+  ageDistribute: { age: [], amount: { female: [], male: [] } },
   genderDistribute: { gender: [], amount: [] },
   getAgeDistribute: async (shopId) => {
     try {

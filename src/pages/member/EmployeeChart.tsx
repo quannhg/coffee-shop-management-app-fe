@@ -1,145 +1,118 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { Card, CardBody } from '@material-tailwind/react';
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   BarElement,
-  PieController,
   Title,
   Tooltip,
   Legend
 } from 'chart.js';
-import { Chart } from 'chart.js/auto';
-import { faker } from '@faker-js/faker';
+import { Bar, Pie } from 'react-chartjs-2';
 import { GENDERS } from '@constants';
 import { capitalizeFirstCharacter } from '@utils';
 import { EmployeeChartNavBar } from 'src/components/employee/EmployeeChartNavBar';
 import { useChartStore, useSelectShopStore } from '@states';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+const AgeDistributeChart = () => {
+  // const { ageDistribute, getAgeDistribute } = useChartStore();
+  const { selectedShop } = useSelectShopStore();
+
+  const { ageDistribute, getAgeDistribute } = useChartStore();
+
+  useEffect(() => {
+    getAgeDistribute(selectedShop === 'all' ? 'all' : selectedShop.id);
+  }, [getAgeDistribute, selectedShop]);
+
+  const data = {
+    labels: ageDistribute.age,
+    datasets: [
+      {
+        label: capitalizeFirstCharacter(GENDERS[0]),
+        data: ageDistribute.amount.male,
+        backgroundColor: 'rgba(53, 162, 235, 0.5)'
+      },
+      {
+        label: capitalizeFirstCharacter(GENDERS[1]),
+        data: ageDistribute.amount.female,
+        backgroundColor: 'rgba(255, 99, 132, 0.5)'
+      }
+    ]
+  };
+  ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+  const options = {
+    plugins: {
+      legend: {
+        position: 'top' as const
+      },
+      title: {
+        display: true,
+        text: 'Số lượng nhân viên theo độ tuổi'
+      }
+    },
+    responsive: true,
+    interaction: {
+      mode: 'index' as const,
+      intersect: false
+    },
+    scales: {
+      x: {
+        stacked: true,
+        title: {
+          display: true,
+          text: 'Độ tuổi'
+        }
+      },
+      y: {
+        stacked: true,
+        title: {
+          display: true,
+          text: 'Số người'
+        }
+      }
+    }
+  };
+
+  return <Bar options={options} data={data} />;
+};
+
+const GenderDistributeChart = () => {
+  const { selectedShop } = useSelectShopStore();
+
+  const { genderDistribute, getGenderDistribute } = useChartStore();
+
+  useEffect(() => {
+    getGenderDistribute(selectedShop === 'all' ? 'all' : selectedShop.id);
+  }, [getGenderDistribute, selectedShop]);
+
+  const data = {
+    labels: genderDistribute.gender,
+    datasets: [
+      {
+        data: genderDistribute.amount,
+        backgroundColor: ['rgba(53, 162, 235, 0.5)', 'rgba(255, 99, 132, 0.5)']
+      }
+    ]
+  };
+
+  ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+  const options = {
+    plugins: {
+      legend: {
+        position: 'right' as const
+      },
+      title: {
+        display: true,
+        text: 'Phân phối nhân viên theo giới tính'
+      }
+    },
+    responsive: true
+  };
+  return <Pie options={options} data={data} />;
+};
 
 export function EmployeeChartPage() {
-  const { getAgeDistribute, getGenderDistribute } = useChartStore();
-  const { selectedShop } = useSelectShopStore();
-  useEffect(() => {
-    getAgeDistribute(selectedShop === 'all' ? '' : selectedShop.id);
-    getGenderDistribute(selectedShop === 'all' ? '' : selectedShop.id);
-  });
-  const AgeDistributeChart = () => {
-    const chartRef = useRef<HTMLCanvasElement>(null);
-
-    useEffect(() => {
-      if (chartRef.current) {
-        const ctx = chartRef.current.getContext('2d');
-        if (ctx) {
-          Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
-          const labels: number[] = [];
-
-          for (let i = 0; i < 10; i++) {
-            labels.push(faker.number.int({ min: 15, max: 35 }));
-          }
-
-          const data = {
-            labels,
-            datasets: [
-              {
-                label: capitalizeFirstCharacter(GENDERS[0]),
-                data: labels.map(() => faker.number.int({ min: 1, max: 15 })),
-                backgroundColor: 'rgba(53, 162, 235, 0.5)'
-              },
-              {
-                label: capitalizeFirstCharacter(GENDERS[1]),
-                data: labels.map(() => faker.number.int({ min: 1, max: 15 })),
-                backgroundColor: 'rgba(255, 99, 132, 0.5)'
-              }
-            ]
-          };
-
-          new Chart(ctx, {
-            type: 'bar',
-            data: data,
-            options: {
-              responsive: true,
-              plugins: {
-                legend: {
-                  position: 'top'
-                },
-                title: {
-                  display: true,
-                  text: 'Số lượng nhân viên theo độ tuổi'
-                }
-              },
-              scales: {
-                x: {
-                  stacked: true,
-                  title: {
-                    display: true,
-                    text: 'Độ tuổi'
-                  }
-                },
-                y: {
-                  stacked: true,
-                  title: {
-                    display: true,
-                    text: 'Số người'
-                  }
-                }
-              }
-            }
-          });
-        }
-      }
-    }, []);
-
-    return <canvas ref={chartRef} />;
-  };
-
-  const GenderDistributeChart = () => {
-    const chartRef = useRef<HTMLCanvasElement>(null);
-
-    useEffect(() => {
-      if (chartRef.current) {
-        const ctx = chartRef.current.getContext('2d');
-        if (ctx) {
-          Chart.register(PieController, Title, Tooltip, Legend);
-
-          const labels = GENDERS;
-
-          const data = {
-            labels,
-            datasets: [
-              {
-                data: labels.map(() => faker.number.int({ min: 1, max: 15 })),
-                backgroundColor: ['rgba(53, 162, 235, 0.5)', 'rgba(255, 99, 132, 0.5)']
-              }
-            ]
-          };
-
-          new Chart(ctx, {
-            type: 'pie',
-            data: data,
-            options: {
-              responsive: true,
-              plugins: {
-                legend: {
-                  position: 'right'
-                },
-                title: {
-                  display: true,
-                  text: 'Phân phối nhân viên theo giới tính'
-                }
-              }
-            }
-          });
-        }
-      }
-    }, []);
-
-    return <canvas ref={chartRef} />;
-  };
-
   return (
     <div>
       <>
@@ -148,12 +121,11 @@ export function EmployeeChartPage() {
             <div className='mb-2'>
               <EmployeeChartNavBar />
             </div>
-
             <div className='w-full'>
               <AgeDistributeChart />
             </div>
             <div style={{ height: 'calc(100vh - 2rem)' }} className='w-full flex justify-center'>
-              <GenderDistributeChart />
+              <GenderDistributeChart />{' '}
             </div>
           </CardBody>
         </Card>
