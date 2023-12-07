@@ -16,7 +16,6 @@ import { EmployeeChartNavBar } from 'src/components/employee/EmployeeChartNavBar
 import { useChartStore, useSelectShopStore } from '@states';
 
 const AgeDistributeChart = () => {
-  // const { ageDistribute, getAgeDistribute } = useChartStore();
   const { selectedShop } = useSelectShopStore();
 
   const { ageDistribute, getAgeDistribute } = useChartStore();
@@ -112,6 +111,45 @@ const GenderDistributeChart = () => {
   return <Pie options={options} data={data} />;
 };
 
+const TableDistributeChart = () => {
+  const { selectedShop } = useSelectShopStore();
+
+  const { tableDistribute, getTableDistribute } = useChartStore();
+
+  useEffect(() => {
+    getTableDistribute(selectedShop === 'all' ? 'all' : selectedShop.id);
+  }, [getTableDistribute, selectedShop]);
+
+  const data = {
+    labels: tableDistribute.statuses,
+    datasets: [
+      {
+        data: tableDistribute.amount,
+        backgroundColor: [
+          'rgba(128, 255, 99, 0.5)',
+          'rgba(53, 162, 235, 0.5)',
+          'rgba(255, 99, 132, 0.5)'
+        ]
+      }
+    ]
+  };
+
+  ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+  const options = {
+    plugins: {
+      legend: {
+        position: 'right' as const
+      },
+      title: {
+        display: true,
+        text: 'Phân phối trạng thái bàn'
+      }
+    },
+    responsive: true
+  };
+  return <Pie options={options} data={data} />;
+};
+
 export function EmployeeChartPage() {
   return (
     <div>
@@ -120,6 +158,9 @@ export function EmployeeChartPage() {
           <CardBody className='gap-4 p-0 flex flex-col divide-y'>
             <div className='mb-2'>
               <EmployeeChartNavBar />
+            </div>
+            <div style={{ height: 'calc(100vh - 2rem)' }} className='w-full flex justify-center'>
+              <TableDistributeChart />{' '}
             </div>
             <div className='w-full'>
               <AgeDistributeChart />
