@@ -113,7 +113,7 @@ export function MemberDetails() {
           Sửa
         </Button>
         <Dialog open={editOpen} handler={handleOpen} size='xs'>
-          <DialogHeader>Thêm nhân viên</DialogHeader>
+          <DialogHeader>Sửa nhân viên</DialogHeader>
           <form className='px-2' onSubmit={handleSubmit(onSubmit)}>
             <DialogBody>
               <div className='mb-4'>
