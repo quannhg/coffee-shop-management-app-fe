@@ -4,11 +4,9 @@ import { toast } from 'react-toastify';
 
 const GET_EMPLOYEE_FAIL = 'Không thể tải dữ liệu nhân viên';
 const REMOVE_EMPLOYEE_SUCCESS = 'Xóa nhân viên thành công';
-const REMOVE_EMPLOYEE_FAIL = 'Không thể xóa nhân viên';
 const UPDATE_EMPLOYEE_SUCCESS = 'Cập nhập thông tin nhân viên thành công';
-const UPDATE_EMPLOYEE_FAIL = 'Không thể cập nhập thông tin nhân viên';
 
-export const useDetailEmployeeStore = create<DetailEmployeeStore>()((set) => ({
+export const useDetailEmployeeStore = create<DetailEmployeeStore>()((set, get) => ({
   member: undefined,
   getMember: async (id) => {
     try {
@@ -24,6 +22,8 @@ export const useDetailEmployeeStore = create<DetailEmployeeStore>()((set) => ({
     toast.clearWaitingQueue();
     try {
       await employeeDetailService.update(id, employee);
+
+      await get().getMember(id);
       toast.update(toastId, {
         type: 'success',
         render: UPDATE_EMPLOYEE_SUCCESS,
@@ -33,7 +33,7 @@ export const useDetailEmployeeStore = create<DetailEmployeeStore>()((set) => ({
     } catch (err) {
       toast.update(toastId, {
         type: 'error',
-        render: UPDATE_EMPLOYEE_FAIL,
+        render: err.message,
         isLoading: false,
         autoClose: 2000
       });
@@ -53,7 +53,7 @@ export const useDetailEmployeeStore = create<DetailEmployeeStore>()((set) => ({
     } catch (err) {
       toast.update(toastId, {
         type: 'error',
-        render: REMOVE_EMPLOYEE_FAIL,
+        render: err.message,
         isLoading: false,
         autoClose: 2000
       });

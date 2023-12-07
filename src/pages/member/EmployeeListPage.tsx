@@ -147,7 +147,9 @@ export function EmployeeListPage() {
             </div>
           );
         },
-        cell: (info) => <Typography>{info.getValue() ?? '-----'}</Typography>
+        cell: (info) => (
+          <Typography>{(info.getValue() === 'Nam' ? 'Nam' : 'Nữ') ?? '-----'}</Typography>
+        )
       }),
       columnHelper.accessor('phoneNum', {
         id: 'phoneNum',

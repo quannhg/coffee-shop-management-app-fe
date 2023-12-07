@@ -1,8 +1,7 @@
 import { AppLayout } from '@layouts';
 // import { AuthPage } from '@pages/auth';
 import { ProjectPage, DetailProjectPage } from '@pages/tickflow';
-// import { AppSkeleton } from '@components/common';
-import { ChartBarIcon, BriefcaseIcon, UserGroupIcon } from '@heroicons/react/24/outline';
+import { ChartBarIcon, UserGroupIcon, FireIcon } from '@heroicons/react/24/outline';
 import { UserPage } from '@pages/user';
 import { PowerIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import { authService } from '@services';
@@ -42,8 +41,8 @@ export default function App() {
       sidebarMenu={[
         {
           type: 'item',
-          icon: <BriefcaseIcon className='h-5 w-5' />,
-          name: 'Dự án',
+          icon: <FireIcon className='h-5 w-5' />,
+          name: 'Món ăn',
           path: '/projects',
           element: <ProjectPage />
         },

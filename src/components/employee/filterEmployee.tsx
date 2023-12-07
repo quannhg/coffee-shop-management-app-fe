@@ -95,7 +95,7 @@ export function FilterEmployee() {
                   size='sm'
                   color='cyan'
                   variant={selectedGenders.includes(GENDERS[0]) ? undefined : 'outlined'}
-                  value={GENDERS[0]}
+                  value={GENDERS[0] === 'Nu' ? 'Nữ' : GENDERS[0]}
                 />
               </span>
               <span
@@ -106,7 +106,7 @@ export function FilterEmployee() {
                   size='sm'
                   color='deep-purple'
                   variant={selectedGenders.includes(GENDERS[1]) ? undefined : 'outlined'}
-                  value={GENDERS[1]}
+                  value={GENDERS[1] === 'Nu' ? 'Nữ' : GENDERS[1]}
                 />
               </span>
             </div>
