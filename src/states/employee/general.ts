@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 
 const GET_EMPLOYEE_FAIL = 'Không thể tải dữ liệu nhân viên';
 const CREATE_EMPLOYEE_SUCCESS = 'Tạo nhân viên thành công';
-const CREATE_EMPLOYEE_FAIL = 'Không thể tạo nhân viên';
+// const CREATE_EMPLOYEE_FAIL = 'Không thể tạo nhân viên';
 
 export const useEmployeeListStore = create<EmployeeListStore>()((set) => ({
   storeStatus: 'UNINIT',
@@ -84,7 +84,7 @@ export const useEmployeeListStore = create<EmployeeListStore>()((set) => ({
       set(() => ({ storeStatus: 'REJECT' }));
       toast.update(toastId, {
         type: 'error',
-        render: CREATE_EMPLOYEE_FAIL,
+        render: err.message,
         isLoading: false,
         autoClose: 2000
       });

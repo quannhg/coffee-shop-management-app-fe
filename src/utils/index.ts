@@ -6,6 +6,7 @@ export * from './capitalizeFirstCharacter';
 export * from './colorSelect';
 export * from './createMemberTitle';
 export * from './currencyFormat';
+export * from './exportTimeStampToDate';
 export * from './formatPhoneNum';
 export * from './nonAccentVietnamese';
 export * from './prettyPrint';

@@ -12,11 +12,11 @@ import {
   getCoreRowModel,
   useReactTable
 } from '@tanstack/react-table';
-import moment from 'moment';
 import { useEffect, useMemo } from 'react';
 import Avatar from 'react-avatar';
 import { useNavigate } from 'react-router-dom';
 import { useEmployeeListStore, useSelectShopStore } from '@states';
+import { convertTimestampToDateFormat } from '@utils';
 
 const columnHelper = createColumnHelper<Employee>();
 
@@ -123,7 +123,7 @@ export function EmployeeListPage() {
             </div>
           );
         },
-        cell: (info) => <Typography>{moment.unix(info.getValue()).format('DD/MM/YYYY')}</Typography>
+        cell: (info) => <Typography>{convertTimestampToDateFormat(info.getValue())}</Typography>
       }),
       columnHelper.accessor('birthday', {
         id: 'birthday',
@@ -135,7 +135,7 @@ export function EmployeeListPage() {
             </div>
           );
         },
-        cell: (info) => <Typography>{moment.unix(info.getValue()).format('DD/MM/YYYY')}</Typography>
+        cell: (info) => <Typography>{convertTimestampToDateFormat(info.getValue())}</Typography>
       }),
       columnHelper.accessor('gender', {
         id: 'gender',
@@ -203,8 +203,6 @@ export function EmployeeListPage() {
       }
     }
   });
-
-  // useListenEvent('member:refetch', refetchMemberList);
 
   const TableBody = () => {
     return (

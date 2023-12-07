@@ -1,5 +1,7 @@
 type CreateEmployeeDto = {
   name: string;
+  username: string;
+  password: string;
   avatarUrl: string;
   address: string;
   gender: Gender;
@@ -7,7 +9,6 @@ type CreateEmployeeDto = {
   phoneNum: string;
   bankNum: string;
   academicLevel: AcademicStandard;
-  joinedAt: number;
   role: Role;
 };
 

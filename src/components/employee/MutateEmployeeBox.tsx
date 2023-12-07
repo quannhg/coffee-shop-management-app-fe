@@ -41,6 +41,17 @@ export function MutateEmployeeBox() {
               <Input {...register('name')} label='Tên' variant='standard' />
             </div>
             <div className='mb-4'>
+              <Input {...register('username')} label='Tên đăng nhập' variant='standard' />
+            </div>
+            <div className='mb-4'>
+              <Input
+                {...register('password')}
+                label=' Mật khẩu'
+                variant='standard'
+                type='password'
+              />
+            </div>
+            <div className='mb-4'>
               <Input {...register('avatarUrl')} label='Avatar URL' variant='standard' />
             </div>
             <div className='mb-4'>
@@ -53,8 +64,8 @@ export function MutateEmployeeBox() {
                 label='Giới tính'
                 variant='standard'
               >
-                <Option value='nam'>Nam</Option>
-                <Option value='nữ'>Nữ</Option>
+                <Option value='Nam'>Nam</Option>
+                <Option value='Nu'>Nữ</Option>
               </Select>
             </div>
             <div className='mb-4'>
@@ -91,19 +102,6 @@ export function MutateEmployeeBox() {
                 <Option value='College Degree'>THPT</Option>
                 <Option value='Undergraduate Degree'>Khác</Option>
               </Select>
-            </div>
-            <div className='mb-4'>
-              {' '}
-              <Input
-                onChange={(event) => {
-                  const selectedDate = event.target.value;
-                  const unixTimestamp = moment(selectedDate, 'YYYY-MM-DD').unix();
-                  setValue('joinedAt', unixTimestamp);
-                }}
-                label='Ngày vào làm'
-                variant='standard'
-                type='date'
-              />
             </div>
             <div className='mb-4'>
               <Select
