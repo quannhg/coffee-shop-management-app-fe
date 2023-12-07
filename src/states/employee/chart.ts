@@ -11,8 +11,48 @@ export const useChartStore = create<ChartStore>()((set) => ({
   tableDistribute: { statuses: [], amount: [] },
   getAgeDistribute: async (shopId) => {
     try {
-      const ageDistribute = await employeeChartService.ageDistribute(shopId);
-      set(() => ({ ageDistribute }));
+      function mergeObjects(objects: AgeDistribute[]): AgeDistribute {
+        const result: AgeDistribute = {
+          age: [],
+          amount: {
+            male: [],
+            female: []
+          }
+        };
+
+        const uniqueAges = Array.from(new Set(objects.flatMap((obj) => obj.age)));
+
+        const maleAmounts: number[] = Array(uniqueAges.length).fill(0);
+        const femaleAmounts: number[] = Array(uniqueAges.length).fill(0);
+
+        objects.forEach((obj) => {
+          obj.age.forEach((age, index) => {
+            const ageIndex = uniqueAges.indexOf(age);
+            maleAmounts[ageIndex] += obj.amount.male[index] || 0;
+            femaleAmounts[ageIndex] += obj.amount.female[index] || 0;
+          });
+        });
+
+        result.age = uniqueAges;
+        result.amount.male = maleAmounts;
+        result.amount.female = femaleAmounts;
+
+        return result;
+      }
+
+      if (shopId !== 'all') {
+        const ageDistribute = await employeeChartService.ageDistribute(shopId);
+        set(() => ({ ageDistribute }));
+      } else {
+        let ageDistribute: AgeDistribute = { age: [], amount: { female: [], male: [] } };
+        const shopList = await employeeGeneralService.getShops();
+
+        for (const shop of shopList) {
+          const ageDistributeOfShop = await employeeChartService.ageDistribute(shop.id);
+          ageDistribute = mergeObjects([ageDistribute, ageDistributeOfShop]);
+        }
+        set(() => ({ ageDistribute: ageDistribute }));
+      }
     } catch (err) {
       toast.error(GET_AGE_DISTRIBUTE_FAIL);
       toast.clearWaitingQueue();
