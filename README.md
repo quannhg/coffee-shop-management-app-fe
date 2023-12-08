@@ -1,4 +1,4 @@
-# TickApp FE
+# Coffee shop management app FE
 
 [![formatter: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) ![CI](https://github.com/ticklabvn/tickapp-fe/actions/workflows/ci.yml/badge.svg) ![Deploy](https://github.com/ticklabvn/tickapp-fe/actions/workflows/cd.yml/badge.svg)
 
