@@ -268,10 +268,13 @@ export function MemberDetails() {
             <Typography variant='small' className='flex flex-col'>
               <span className='font-semibold text-blue-gray-800'>Thời gian làm việc</span>
               <span className='font-normal'>
-                {convertTimestampToDateFormat(memberDetails.joinedAt)} -{' '}
-                {memberDetails.leaveAt
-                  ? convertTimestampToDateFormat(memberDetails.leaveAt)
-                  : 'Hiện tại'}
+                {memberDetails.joinedAt === 0
+                  ? '----'
+                  : `${convertTimestampToDateFormat(memberDetails.joinedAt)} - ${
+                      memberDetails.leaveAt
+                        ? convertTimestampToDateFormat(memberDetails.leaveAt)
+                        : 'Hiện tại'
+                    }`}
               </span>
             </Typography>
           </div>
