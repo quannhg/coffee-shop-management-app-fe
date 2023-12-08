@@ -1,6 +1,6 @@
 import { ITime } from '@interfaces';
 
-export const SUSTENANCE_STATUS = ['READY', 'NOT_READY'];
+export const SUSTENANCE_STATUS = ['ready', 'not ready'];
 
 export const PROJECT_STATUS: ProjectStatus[] = [
   'PROPOSAL',

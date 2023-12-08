@@ -1,69 +1,24 @@
 import { useNavigate } from 'react-router-dom';
-import { Card, CardBody, Chip, Spinner, Typography } from '@material-tailwind/react';
+import { Card, CardBody, Chip, Typography } from '@material-tailwind/react';
 import { AllProjectsNavBar } from './AllProjectsNavBar';
 import { ShowMember } from '@components/tickflow';
 import { PROJECT_HEADERS } from '@constants';
 import { formatCurrency, sustenanceStatusColor } from '@utils';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useItemListStore, useSelectShopStore } from '@states';
 
 // TODO: consider about performance
 export const ProjectList: Component = () => {
   const navigate = useNavigate();
 
-  const isLoading = false,
-    isError = false,
-    data = {};
-  // const { data, isLoading, isError } = useQuery(['/api/projects'], {
-  //   queryFn: () => projectService.getAll(),
-  //   retry: retryQueryFn
-  // });
+  const { itemList: subtenancies, getItemList } = useItemListStore();
+  const { selectedShop } = useSelectShopStore();
 
-  const subtenancies = [
-    {
-      id: 'pro_abc123',
-      name: 'trà sữa',
-      avatarUrl:
-        'https://product.hstatic.net/200000421745/product/ts_tran_chau_052aed385e41470db7cec46eddfcfdbb_1024x1024.png',
-      price: 19000,
-      status: 'READY'
-    },
-    {
-      id: 'pro_abc124',
-      name: 'Cà phê',
-      avatarUrl:
-        'https://product.hstatic.net/200000480127/product/ca_phe_da_mang_di_9728fecf033b414191f4315f472eac0d_1024x1024.png',
-      price: 15000,
-      status: 'NOT_READY'
-    }
-  ];
+  useEffect(() => {
+    getItemList(selectedShop === 'all' ? 'all' : selectedShop.id);
+  }, [getItemList, selectedShop]);
 
   const TableBody = useMemo(() => {
-    if (isLoading)
-      return (
-        <tr>
-          <td colSpan={PROJECT_HEADERS.length}>
-            <div className='grid justify-items-center items-center'>
-              <Spinner color='green' className='h-12 w-12' />
-              <span>Đang tải dữ liệu...</span>
-            </div>
-          </td>
-        </tr>
-      );
-
-    if (isError || data === undefined)
-      return (
-        <tr>
-          <td colSpan={PROJECT_HEADERS.length}>
-            <div className='grid justify-items-center items-center'>
-              <Typography variant='small' color='red'>
-                Đã xảy ra lỗi, vui lòng thử lại
-              </Typography>
-            </div>
-          </td>
-        </tr>
-      );
-
-    // const { data: projects } = data;
     if (subtenancies.length === 0)
       return (
         <tr>
@@ -107,7 +62,7 @@ export const ProjectList: Component = () => {
           </td>
           <td className={classes}>
             <Typography variant='small' className='font-normal !line-clamp-3'>
-              {formatCurrency(sustenance.price)}
+              {formatCurrency(Number(sustenance.price))}
             </Typography>
           </td>
           <td className={classes}>
@@ -122,7 +77,7 @@ export const ProjectList: Component = () => {
         </tr>
       );
     });
-  }, [isLoading, isError, data, subtenancies, navigate]);
+  }, [subtenancies, navigate]);
 
   return (
     <Card className='h-full w-full drop-shadow-2xl p-4 min-h-screen overflow-x-scroll'>

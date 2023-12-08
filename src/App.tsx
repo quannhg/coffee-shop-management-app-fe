@@ -2,8 +2,7 @@ import { AppLayout } from '@layouts';
 // import { AuthPage } from '@pages/auth';
 import { ProjectPage, DetailProjectPage } from '@pages/tickflow';
 import { ChartBarIcon, UserGroupIcon, FireIcon } from '@heroicons/react/24/outline';
-import { UserPage } from '@pages/user';
-import { PowerIcon, UserCircleIcon } from '@heroicons/react/24/solid';
+import { PowerIcon } from '@heroicons/react/24/solid';
 import { authService, userService } from '@services';
 import { toast } from 'react-toastify';
 import { MemberPage, EmployeeListPage, EmployeeChartPage } from '@pages/member';
@@ -28,12 +27,6 @@ export default function App() {
     });
   }, [refetch]);
 
-  // useEffect(() => {
-  //   if (data) {
-  //     updateUserInfo(data);
-  //   }
-  // }, [data, updateUserInfo]);
-
   if (isFetching) return <AppSkeleton />;
 
   if (isError) return <AuthPage />;
@@ -45,7 +38,7 @@ export default function App() {
           type: 'item',
           icon: <FireIcon className='h-5 w-5' />,
           name: 'Món ăn',
-          path: '/projects',
+          path: '/items',
           element: <ProjectPage />
         },
         {
@@ -63,13 +56,6 @@ export default function App() {
           element: <EmployeeChartPage />
         },
         'divider',
-        {
-          type: 'item',
-          icon: <UserCircleIcon className='h-5 w-5' />,
-          path: '/user',
-          name: 'Cá nhân',
-          element: <UserPage />
-        },
         {
           type: 'logout-btn',
           icon: <PowerIcon className='h-5 w-5' />,

@@ -9,6 +9,7 @@ export * from './employee/chart';
 export * from './employee/detail';
 export * from './employee/general';
 export * from './employee/search';
+export * from './item/item';
 export * from './member/filterMember';
 export * from './member/memberDetail';
 export * from './member/memberDetailProject';
