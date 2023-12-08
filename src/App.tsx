@@ -4,27 +4,29 @@ import { ProjectPage, DetailProjectPage } from '@pages/tickflow';
 import { ChartBarIcon, UserGroupIcon, FireIcon } from '@heroicons/react/24/outline';
 import { UserPage } from '@pages/user';
 import { PowerIcon, UserCircleIcon } from '@heroicons/react/24/solid';
-import { authService } from '@services';
+import { authService, userService } from '@services';
 import { toast } from 'react-toastify';
 import { MemberPage, EmployeeListPage, EmployeeChartPage } from '@pages/member';
+import { AuthPage } from '@pages/auth';
+import { useQuery } from '@tanstack/react-query';
+import { AppSkeleton } from '@components/common';
+import { useEffect } from 'react';
 
 export default function App() {
-  // const { data, refetch } = useQuery(['user'], {
-  //   queryFn: () => userService.getInfo(),
-  //   retry(failureCount, error: ResponseError) {
-  //     if (error.statusCode && error.statusCode >= 400 && error.statusCode < 500) return false;
-  //     return failureCount < 3;
-  //   },
-  //   enabled: false
-  // });
+  const { refetch, isFetching, isError } = useQuery(['user'], {
+    queryFn: () => userService.getInfo(),
+    retry(failureCount, error: ResponseError) {
+      if (error.statusCode && error.statusCode >= 400 && error.statusCode < 500) return false;
+      return failureCount < 3;
+    },
+    enabled: false
+  });
 
-  // const { updateUserInfo } = useUserStore();
-
-  // useEffect(() => {
-  //   refetch({ throwOnError: true }).catch((err) => {
-  //     if (err.statusCode !== 401) toast.error(err.message);
-  //   });
-  // }, [refetch]);
+  useEffect(() => {
+    refetch({ throwOnError: true }).catch((err) => {
+      if (err.statusCode !== 401) toast.error(err.message);
+    });
+  }, [refetch]);
 
   // useEffect(() => {
   //   if (data) {
@@ -32,9 +34,9 @@ export default function App() {
   //   }
   // }, [data, updateUserInfo]);
 
-  // if (isFetching) return <AppSkeleton />;
-  // // TODO: remove warn log "No routes matched location /"
-  // if (isError) return <AuthPage />;
+  if (isFetching) return <AppSkeleton />;
+
+  if (isError) return <AuthPage />;
 
   return (
     <AppLayout

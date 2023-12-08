@@ -7,16 +7,16 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
-import loginImage from '@assets/login.svg';
+import loginImage from '@assets/shopLogo.jpg';
 
 type LoginFormData = {
-  usernameOrEmail: string;
+  username: string;
   password: string;
 };
 
 const schema = yup
   .object({
-    usernameOrEmail: yup.string().min(5).required(),
+    username: yup.string().min(5).required(),
     password: yup.string().min(8).required()
   })
   .required();
@@ -78,9 +78,9 @@ export function AuthPage() {
                 size='lg'
                 label='Email or username'
                 icon={<EnvelopeIcon />}
-                {...register('usernameOrEmail')}
+                {...register('username')}
                 type='text'
-                error={!!errors.usernameOrEmail}
+                error={!!errors.username}
               />
 
               <Input

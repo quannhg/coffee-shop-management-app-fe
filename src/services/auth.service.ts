@@ -1,6 +1,6 @@
 import { apiClient } from './common';
 
-async function login(body: { usernameOrEmail: string; password: string }) {
+async function login(body: { username: string; password: string }) {
   const { data, error } = await apiClient.POST('/auth/login', { body });
   if (data) return data;
   throw error;
